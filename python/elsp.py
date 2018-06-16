@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from elsp import *
 import sys
 import os
@@ -41,8 +43,9 @@ def read_server_args(args):
     
   dat = DotMap()
 
-  dat.data = [[int(d)] for d in args.dj.split(" ")] #separate the string ad cast to array of int
-  print(dat.data)
+  dat.data = args.dj.split(" ") #separate the string 
+  dat.data.pop() #discard last empty item
+  dat.data = [[int(d)] for d in dat.data] #cast each item
 
   dat.p = args.p
   dat.q = args.q
@@ -156,7 +159,7 @@ def create_model(dat):
   xt = ["xt(" + str(i) + ")" for i in I] 
   st = ["st(" + str(i) + ")" for i in I] 
 
-  # cpx.variable.add = usar o mesmo número de vezes quanto o número de variáveis na função objetivo
+  # cpx.variable.add = usar o mesmo número de vezes quanto o numero de variaveis na função objetivo
   cpx.variables.add(obj= [p] * nt, \
                     lb = [0.0] * nt,\
                     ub = [cplex.infinity] * nt,\
@@ -243,7 +246,7 @@ def solve_model(dat,cpx):
     (status != cpx.solution.status.MIP_feasible):
 
     statusMsg = cpx.solution.get_status_string() 
-    print(statusMsg)
+    #print(statusMsg)
     sys.exit(-1)
   else:
     nt = dat.nt
@@ -266,19 +269,24 @@ def solve_model(dat,cpx):
 
 def print_sol(dat,sol):
     I = range(dat.nt)
-    print("Solver status          : {:s}".format(sol.msg))
-    print("Objective function     : {:18,.2f}".format(sol.of))
+    #print("Solver status          : {:s}".format(sol.msg))
+    #print("Objective function     : {:18,.2f}".format(sol.of))
     print("\n\tTime period\t|\tProduction batch size\t|\tProduction set-up\t|\tEnd inventory level")
     for i in I:
       print("\t  {:.2f}\t\t|{:18,.2f}\t\t|{:18,.2f}\t\t|{:18,.2f}\t".format(i, sol.xt[i], sol.yt[i], sol.st[i]))
 
+def print_sol_server(dat, sol):
+    I = range(dat.nt)
+    for i in I:
+      print("{:.2f} {:18,.2f} {:18,.2f} {:18,.2f}".format(i, sol.xt[i], sol.yt[i], sol.st[i]))
 
 if __name__ == "__main__":
   args = parse_arguments()
   dat = read_data(args)
   cpx = create_model(dat)
   sol = solve_model(dat,cpx)
-  print_sol(dat,sol)
+  print_sol_server(dat,sol)
 
 #'400 400 800 800 1200 1200 1200 1200'
 #python3 elsp3.py server 100 5000 5 8 200 '400 400 800 800 1200 1200 1200 1200'
+#python3 elsp.py server 100 5000 5 8 200 '400 400 800 800 1200 1200 1200 1200 '
