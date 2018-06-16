@@ -4,11 +4,6 @@ const pythonShell = require('python-shell');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('index', {title:'home'});
-});
-
-
 let runPy = (dat, djString) => {
     return new Promise((resolve, reject) => {
         let dataString = '';
@@ -41,23 +36,29 @@ let formatData = (dataString) => {
     formatedData = formatedData.replace(/\s\s+/g, ' ').split(/\s/g); //replace more than one space for just one and split
     formatedData.shift(); //pop the first item of array
     formatedData.pop();////pop the last item of array
-    console.log(formatedData);
+    objectiveFunction = formatedData.splice(0,4).join(' ');
+    formatedData = [formatedData, objectiveFunction]
     return formatedData;
 }
 
+router.get('/', (req, res) => {
+    res.render('index', {title:'home'});
+});
+
+
 router.post('/', (req, res) => {
-    // let data = runPy.then();
     let dat = req.body.dat;
     let djString  = '';
     let dj = req.body.dj;
     for(d in dj){
         djString += `${dj[d]} `
     }
-    // console.log(djString);
+    //  console.log(req.body.dat);
     runPy(dat, djString)
         .then(dataString => {
-            formatedData = formatData(dataString);
-            res.render('/results', {data: formatedData});
+            let formatedData = formatData(dataString);
+            console.log(formatedData);
+            // res.render('results', {data: formatedData});
         })
         .catch(err => console.log(err));
     res.redirect('/');

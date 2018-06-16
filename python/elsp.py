@@ -277,6 +277,7 @@ def print_sol(dat,sol):
 
 def print_sol_server(dat, sol):
     I = range(dat.nt)
+    print("Objective function     : {:18,.2f}".format(sol.of))
     for i in I:
       print("{:.2f} {:18,.2f} {:18,.2f} {:18,.2f}".format(i, sol.xt[i], sol.yt[i], sol.st[i]))
 
