@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+          <h1 class="subtitle"><%= objectiveFunction %></h1>
+            <table class="table is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Time Period</th>
+                    <th>Production Batch Size</th>
+                    <th>Production Set-up</th>
+                    <th>End Inventory Level</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i<data.length-3; i=i+4) { %>     
+                   <tr>
+                    <th><%= data[i] %></th>
+                    <th><%= data[i+1] %></th>
+                    <th><%= data[i+2] %></th>
+                    <th><%= data[i+3] %></th>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+        </div>
+    </section>
+
+</body>
+
+</html>

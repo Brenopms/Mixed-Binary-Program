@@ -58,10 +58,9 @@ router.post('/', (req, res) => {
         .then(dataString => {
             let formatedData = formatData(dataString);
             console.log(formatedData);
-            // res.render('results', {data: formatedData});
+            res.render('results', {data: formatedData[0], objectiveFunction:formatedData[1]});
         })
-        .catch(err => console.log(err));
-    res.redirect('/');
+        .catch(err => res.redirect('/'));
 });
 
 module.exports = router;
