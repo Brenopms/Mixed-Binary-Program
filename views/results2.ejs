@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ./partials/head %>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+        <h1 class="subtitle">Problems</h1>
+            <table class="table is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>P</th>
+                    <th>q</th>
+                    <th>hcost</th>
+                    <th>NT</th>
+                    <th>sINit</th>
+                    <th>djString</th>
+                    <th>Link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <% results.forEach(result => { %>
+                    <tr>
+                        <th><%= result.dat.p %></th>
+                        <th><%= result.dat.q %></th>
+                        <th><%= result.dat.hcost %></th>
+                        <th><%= result.dat.NT %></th>
+                        <th><%= result.dat.sInit %></th>
+                        <th><%= result.djString %></th>
+                        <th><a href="/results/<%= result._id %>">Details</a></th>
+                    </tr>
+                <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </section>
+</body>
+
+</html>
