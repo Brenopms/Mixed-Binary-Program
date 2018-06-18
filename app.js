@@ -3,11 +3,12 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const Mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const resultsRouter = require('./routes/result');
-Mongoose.connect('mongodb://brenopms:ROsEgcoofchojy9@ds163330.mlab.com:63330/elsp');
+mongoose.connect('mongodb://brenopms:ROsEgcoofchojy9@ds163330.mlab.com:63330/elsp');
+// mongoose.connect('mongodb://localhost/elsp');
 
 const app = express();
 
