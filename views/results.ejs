@@ -6,32 +6,40 @@
 </head>
 
 <body>
+    <% include ./partials/header %>
     <section class="section">
         <div class="container">
-          <h1 class="subtitle"><%= objectiveFunction %></h1>
+        <h1 class="subtitle">Problems</h1>
             <table class="table is-hoverable is-fullwidth">
                 <thead>
                   <tr>
-                    <th>Time Period</th>
-                    <th>Production Batch Size</th>
-                    <th>Production Set-up</th>
-                    <th>End Inventory Level</th>
+                    <th>P</th>
+                    <th>q</th>
+                    <th>hcost</th>
+                    <th>NT</th>
+                    <th>sINit</th>
+                    <th>djString</th>
+                    <th>Link</th>
                   </tr>
                 </thead>
                 <tbody>
-                    <% for(var i=0; i<data.length-3; i=i+4) { %>     
-                   <tr>
-                    <th><%= data[i] %></th>
-                    <th><%= data[i+1] %></th>
-                    <th><%= data[i+2] %></th>
-                    <th><%= data[i+3] %></th>
-                  </tr>
-                  <% } %>
+                <% results.forEach(result => { %>
+                    <tr>
+                        <th><%= result.dat.p %></th>
+                        <th><%= result.dat.q %></th>
+                        <th><%= result.dat.hcost %></th>
+                        <th><%= result.dat.NT %></th>
+                        <th><%= result.dat.sInit %></th>
+                        <th><%= result.djString %></th>
+                        <th><a href="/results/<%= result._id %>">Details</a></th>
+                    </tr>
+                <% }) %>
                 </tbody>
               </table>
-        </div>
-    </section>
+            </div>
+          </section>
 
+    <script src="/javascripts/burguer.js"></script>
 </body>
 
 </html>

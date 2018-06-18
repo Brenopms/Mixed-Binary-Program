@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     Problem.find({}).exec()
         .then(results => {
             console.log(results);
-            res.render('results2', {results: results});
+            res.render('results', {results: results});
         })
         .catch(err => {
             console.log(err);

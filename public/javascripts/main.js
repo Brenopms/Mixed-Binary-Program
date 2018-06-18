@@ -15,6 +15,7 @@ periods.addEventListener('change',  function(){
   }
 });
 
+
 /* buttonAdd.addEventListener('click', () => {
   count +=1;
   let newForm = `

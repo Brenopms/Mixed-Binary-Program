@@ -75,8 +75,6 @@ let processData = (req, res, next) => {
     runPy(dat, djString)
         .then(dataString => {
             let formatedData = formatData(dataString);
-            // console.log(formatedData);
-            // req.formatedData = formatedData;
             createProblem(dat, djString, formatedData[0], formatedData[1])
                 .then(id => {
                     req.id = id;
