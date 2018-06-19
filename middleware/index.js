@@ -105,7 +105,6 @@ let processData = (req, res, next) => {
     for(d in dj){
         djString += `${dj[d]} `
     }
-    console.log(dat);
     runPy(dat, djString)
         .then(dataString => {
             let formatedData = formatData(dataString);

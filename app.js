@@ -7,7 +7,11 @@ const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const resultsRouter = require('./routes/result');
+
+//MLab cloud db
 mongoose.connect('mongodb://brenopms:ROsEgcoofchojy9@ds163330.mlab.com:63330/elsp');
+
+//Local db
 // mongoose.connect('mongodb://localhost/elsp');
 
 const app = express();
@@ -22,6 +26,7 @@ app.use(express.urlencoded({ extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//ROUTES
 app.use('/', indexRouter);
 app.use('/results', resultsRouter);
 
