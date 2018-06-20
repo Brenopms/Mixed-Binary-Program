@@ -7,7 +7,6 @@ const Problem = require('../models/problem');
 router.get('/', (req, res) => {
     Problem.find({}).exec()
         .then(results => {
-            console.log(results);
             res.render('results', {results: results});
         })
         .catch(err => {
@@ -20,12 +19,11 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Problem.findById(req.params.id)
         .then(result => {
-            console.log(result);
             res.render('result_id', {result: result});
         })
         .catch(err => {
             console.log(err);
-            res.render('index');
+            res.redirect('/');
         });
 })
 

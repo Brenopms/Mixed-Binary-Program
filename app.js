@@ -6,7 +6,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
-const resultsRouter = require('./routes/result');
+const resultsRouter = require('./routes/results');
 
 //MLab cloud db
 mongoose.connect('mongodb://brenopms:ROsEgcoofchojy9@ds163330.mlab.com:63330/elsp');
@@ -29,6 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //ROUTES
 app.use('/', indexRouter);
 app.use('/results', resultsRouter);
+app.use((req, res, next) => {
+    res.status(404).render('404');
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
