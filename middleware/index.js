@@ -7,7 +7,7 @@ const Problem = require('../models/problem');
  * Calls a python function to find the optimal solution to elsp problem using cplex
  * @param  {object} dat - all the arguments of the elsp problem
  * @param  {[String]} djString - list of forecasts demands
- * return {String} containing the objective function and the optimal solution
+ * @return {String} containing the objective function and the optimal solution
  */
 let runPy = (dat, djString) => {
     return new Promise((resolve, reject) => {
@@ -37,7 +37,7 @@ let runPy = (dat, djString) => {
 /**
  * Parses the data coming from python script, to optimal solution and objective function
  * @param  {String} dataString - data coming from python with objective function and optimal solution
- * return {[[String], String]} -  optimal solution persed to an array with 
+ * @return {[[String], String]} -  optimal solution persed to an array with 
  * Time Period	
  * Production Batch Size	
  * Production Set-up	
@@ -65,7 +65,7 @@ let formatData = (dataString) => {
  * Production Set-up	
  * End Inventory Level
  * @param  {String} objectiveFunction - 'Objective function : NUMBER'
- * return {String} - id of mongo the mongo object that was created
+ * @return {String} - id of mongo the mongo object that was created
  */
 let createProblem = (dat, djString, solution, objectiveFunction) => {
     return new Promise((resolve, reject) => {
