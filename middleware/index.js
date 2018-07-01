@@ -1,7 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const spawn  = require('child_process').spawn;
 const Problem = require('../models/problem');
+const config = require('../config');
+
+const router = express.Router();
 
 /**
  * Calls a python function to find the optimal solution to elsp problem using cplex
@@ -13,7 +15,7 @@ let runPy = (dat, djString) => {
     return new Promise((resolve, reject) => {
         let dataString = '';
         let py = spawn('python3',[
-            '/home/brenopms/SI/elsp-server/python/elsp.py',
+            config.pythonPath,
              'server', 
              dat.p, 
              dat.q, 
@@ -46,6 +48,7 @@ let runPy = (dat, djString) => {
  * and String with objective function: 'Objective function : NUMBER'
  */
 let formatData = (dataString) => {
+    let formatData
     formatedData = dataString.split('ticks)'); 
     formatedData = formatedData[formatedData.length - 1]; //get the final table
     formatedData = formatedData.replace(/\s\s+/g, ' ').split(/\s/g); //replace more than one space for just one and split
@@ -82,7 +85,6 @@ let createProblem = (dat, djString, solution, objectiveFunction) => {
                 solution: solution,
                 objectiveFunction: objectiveFunction
             }
-            console.log(data);
             const problem = new Problem(data)
             problem.save()
                 .then(result => resolve(result._id))

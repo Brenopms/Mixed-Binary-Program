@@ -4,12 +4,13 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const config = require('./config');
 
 const indexRouter = require('./routes/index');
 const resultsRouter = require('./routes/results');
 
 //MLab cloud db
-mongoose.connect('mongodb://brenopms:ROsEgcoofchojy9@ds163330.mlab.com:63330/elsp');
+mongoose.connect(config.connectionString);
 
 //Local db
 // mongoose.connect('mongodb://localhost/elsp');

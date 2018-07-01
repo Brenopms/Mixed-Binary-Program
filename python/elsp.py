@@ -269,8 +269,8 @@ def solve_model(dat,cpx):
 
 def print_sol(dat,sol):
     I = range(dat.nt)
-    #print("Solver status          : {:s}".format(sol.msg))
-    #print("Objective function     : {:18,.2f}".format(sol.of))
+    print("Solver status          : {:s}".format(sol.msg))
+    print("Objective function     : {:18,.2f}".format(sol.of))
     print("\n\tTime period\t|\tProduction batch size\t|\tProduction set-up\t|\tEnd inventory level")
     for i in I:
       print("\t  {:.2f}\t\t|{:18,.2f}\t\t|{:18,.2f}\t\t|{:18,.2f}\t".format(i, sol.xt[i], sol.yt[i], sol.st[i]))
@@ -280,6 +280,7 @@ def print_sol_server(dat, sol):
     print("Objective function     : {:18,.2f}".format(sol.of))
     for i in I:
       print("{:.2f} {:18,.2f} {:18,.2f} {:18,.2f}".format(i, sol.xt[i], sol.yt[i], sol.st[i]))
+
 
 if __name__ == "__main__":
   args = parse_arguments()

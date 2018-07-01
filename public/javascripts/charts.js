@@ -1,3 +1,4 @@
+//parse data fromm the html table
 let data2 = document.querySelectorAll('th');
 data2 = [...data2]; //nodeList to array
 let production = [];
@@ -14,6 +15,7 @@ data2.forEach(d => {
 production = production.map(item => item.replace(',', ''));
 inventoryLevel = inventoryLevel.map(item => item.replace(',', ''));
 
+//put the data in a table chart
 let chart = c3.generate({
     bindto: '#chart',
     data: {
@@ -25,7 +27,7 @@ let chart = c3.generate({
     }, 
     bar: {
         width: {
-            ratio: 0.35 // this makes bar width 25% of length between ticks
+            ratio: 0.35 // this makes bar width 35% of length between ticks
         }
     },
     color: {
