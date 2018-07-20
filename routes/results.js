@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const mid = require('../middleware/index');
 const Problem = require('../models/problem');
 
 //renders all problems with links to their solutions
@@ -12,7 +11,7 @@ router.get('/', (req, res) => {
         .catch(err => {
             console.log(err);
             res.render('index');
-        })
+        });
 });
 
 //render the selected problem and its solution
@@ -25,7 +24,7 @@ router.get('/:id', (req, res) => {
             console.log(err);
             res.redirect('/');
         });
-})
+});
 
 
 module.exports = router;

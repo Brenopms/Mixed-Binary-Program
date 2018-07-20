@@ -1,9 +1,6 @@
-const express = require('express');
-const spawn  = require('child_process').spawn;
+const spawn = require('child_process').spawn;
 const Problem = require('../models/problem');
 const config = require('../config');
-
-const router = express.Router();
 
 /**
  * Calls a python function to find the optimal solution to elsp problem using cplex
@@ -14,15 +11,15 @@ const router = express.Router();
 let runPy = (dat, djString) => {
     return new Promise((resolve, reject) => {
         let dataString = '';
-        let py = spawn('python3',[
+        let py = spawn('python3', [
             config.pythonPath,
-             'server', 
-             dat.p, 
-             dat.q, 
-             dat.hcost,
-             dat.NT, 
-             dat.sInit,
-             djString
+            'server',
+            dat.p,
+            dat.q,
+            dat.hcost,
+            dat.NT,
+            dat.sInit,
+            djString
         ]);
 
         py.stdout.on('data', (data) => {
@@ -31,11 +28,11 @@ let runPy = (dat, djString) => {
         py.stdout.on('end', () => {
             resolve(dataString);
         });
-        py.stderr.on('err', (err) =>{
+        py.stderr.on('err', (err) => {
             reject(err.toString());
-        })
+        });
     });
-} 
+};
 /**
  * Parses the data coming from python script, to optimal solution and objective function
  * @param  {String} dataString - data coming from python with objective function and optimal solution
@@ -48,16 +45,16 @@ let runPy = (dat, djString) => {
  * and String with objective function: 'Objective function : NUMBER'
  */
 let formatData = (dataString) => {
-    let formatData
-    formatedData = dataString.split('ticks)'); 
+    let formatedData, objectiveFunction;
+    formatedData = dataString.split('ticks)');
     formatedData = formatedData[formatedData.length - 1]; //get the final table
     formatedData = formatedData.replace(/\s\s+/g, ' ').split(/\s/g); //replace more than one space for just one and split
     formatedData.shift(); //pop the first item of array
     formatedData.pop();////pop the last item of array
-    objectiveFunction = formatedData.splice(0,4).join(' ');
-    formatedData = [formatedData, objectiveFunction]
+    objectiveFunction = formatedData.splice(0, 4).join(' ');
+    formatedData = [formatedData, objectiveFunction];
     return formatedData;
-}
+};
 /**
  * Saves to mongodb the problem and solution
  * @param  {object} dat - all the arguments of the elsp problem
@@ -72,25 +69,25 @@ let formatData = (dataString) => {
  */
 let createProblem = (dat, djString, solution, objectiveFunction) => {
     return new Promise((resolve, reject) => {
-            const data = {
-                dat: {
-                    file: 'server',
-                    p: dat.p,
-                    q: dat.q,
-                    hcost: dat.hcost,
-                    NT: dat.NT,
-                    sInit: dat.sInit
-                },
-                djString: djString,
-                solution: solution,
-                objectiveFunction: objectiveFunction
-            }
-            const problem = new Problem(data)
-            problem.save()
-                .then(result => resolve(result._id))
-                .catch(err => reject(err));
-    })
-}
+        const data = {
+            dat: {
+                file: 'server',
+                p: dat.p,
+                q: dat.q,
+                hcost: dat.hcost,
+                NT: dat.NT,
+                sInit: dat.sInit
+            },
+            djString: djString,
+            solution: solution,
+            objectiveFunction: objectiveFunction
+        };
+        const problem = new Problem(data)
+        problem.save()
+            .then(result => resolve(result._id))
+            .catch(err => reject(err));
+    });
+};
 /**
  * Receive data from the elsp form, calls runPy to run python function,
  * calls formatData to format the data from the python script,
@@ -102,10 +99,10 @@ let createProblem = (dat, djString, solution, objectiveFunction) => {
  */
 let processData = (req, res, next) => {
     let dat = req.body.dat;
-    let djString  = '';
+    let djString = '';
     let dj = req.body.dj;
-    for(d in dj){
-        djString += `${dj[d]} `
+    for (d in dj) {
+        djString += `${dj[d]} `;
     }
     runPy(dat, djString)
         .then(dataString => {
@@ -113,12 +110,12 @@ let processData = (req, res, next) => {
             createProblem(dat, djString, formatedData[0], formatedData[1])
                 .then(id => {
                     req.id = id;
-                    next()
+                    next();
                 })
                 .catch(err => {
                     console.log(err);
                     res.redirect('/');
-                })
+                });
         })
         .catch(err => res.redirect('/'));
 }
